@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/FeaturedHotels.css';
 
-const FeaturedHotels = () => {
+const FeaturedHotels = ({ onReservation }) => {
   const featuredHotels = [
     {
       id: 1,
@@ -123,7 +123,25 @@ const FeaturedHotels = () => {
                   <span className="discount-price">S/ {hotel.discountPrice}</span>
                   <span className="price-period">/noche</span>
                 </div>
-                  <button className="book-now-btn">
+                  <button 
+                    className="book-now-btn"
+                    onClick={() => {
+                      console.log('Botón clickeado', hotel.name);
+                      if (onReservation) {
+                        onReservation({
+                          hotel: hotel.name,
+                          location: hotel.location,
+                          nights: 2,
+                          guests: 2,
+                          total: hotel.discountPrice,
+                          checkIn: new Date().toISOString().split('T')[0],
+                          checkOut: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+                        });
+                      } else {
+                        console.log('onReservation no está definido');
+                      }
+                    }}
+                  >
                     <i className="fas fa-calendar-check"></i>
                     Reservar Ahora
                   </button>

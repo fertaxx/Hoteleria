@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/Destinations.css';
 
-const Destinations = () => {
+const Destinations = ({ onReservation }) => {
   const destinations = [
     {
       id: 1,
@@ -99,9 +99,20 @@ const Destinations = () => {
                     <span className="price-value">S/ {destination.avgPrice}</span>
                     <span className="price-period">/noche</span>
                   </div>
-                  <button className="explore-btn">
-                    <i className="fas fa-compass"></i>
-                    Explorar
+                  <button 
+                    className="explore-btn"
+                    onClick={() => onReservation({
+                      hotel: `Hotel en ${destination.name}`,
+                      location: destination.name,
+                      nights: 3,
+                      guests: 2,
+                      total: destination.avgPrice,
+                      checkIn: new Date().toISOString().split('T')[0],
+                      checkOut: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+                    })}
+                  >
+                    <i className="fas fa-calendar-check"></i>
+                    Reservar
                   </button>
                 </div>
               </div>

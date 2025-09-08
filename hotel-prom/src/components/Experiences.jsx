@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/Experiences.css';
 
-const Experiences = () => {
+const Experiences = ({ onReservation }) => {
   const experiences = [
     {
       id: 1,
@@ -105,7 +105,18 @@ const Experiences = () => {
                       <span>{experience.duration}</span>
                     </div>
                   </div>
-                  <button className="book-experience-btn">
+                  <button 
+                    className="book-experience-btn"
+                    onClick={() => onReservation({
+                      hotel: `Experiencia ${experience.title}`,
+                      location: 'Destino exclusivo',
+                      nights: parseInt(experience.duration.split('-')[0]),
+                      guests: 2,
+                      total: parseInt(experience.price.match(/\d+/)[0]),
+                      checkIn: new Date().toISOString().split('T')[0],
+                      checkOut: new Date(Date.now() + parseInt(experience.duration.split('-')[0]) * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+                    })}
+                  >
                     <i className="fas fa-heart"></i>
                     Reservar Experiencia
                   </button>
@@ -119,7 +130,18 @@ const Experiences = () => {
           <div className="custom-content">
             <h3>¿No encuentras lo que buscas?</h3>
             <p>Creamos experiencias personalizadas según tus gustos y necesidades</p>
-            <button className="custom-btn">
+            <button 
+              className="custom-btn"
+              onClick={() => onReservation({
+                hotel: 'Experiencia Personalizada',
+                location: 'Destino a medida',
+                nights: 5,
+                guests: 2,
+                total: 800,
+                checkIn: new Date().toISOString().split('T')[0],
+                checkOut: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+              })}
+            >
               <i className="fas fa-magic"></i>
               Crear Mi Experiencia
             </button>

@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/Promotions.css';
 
-const Promotions = () => {
+const Promotions = ({ onReservation }) => {
   const promotions = [
     {
       id: 1,
@@ -70,7 +70,18 @@ const Promotions = () => {
                   <span className="original-price">{promo.originalPrice}</span>
                   <span className="promo-price">{promo.price}</span>
                 </div>
-                <button className="promo-btn">
+                <button 
+                  className="promo-btn"
+                  onClick={() => onReservation({
+                    hotel: promo.title,
+                    location: 'Destino promocional',
+                    nights: 3,
+                    guests: 2,
+                    total: parseInt(promo.price.match(/\d+/)[0]),
+                    checkIn: new Date().toISOString().split('T')[0],
+                    checkOut: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+                  })}
+                >
                   <i className="fas fa-calendar-check"></i>
                   Reservar Ahora
                 </button>

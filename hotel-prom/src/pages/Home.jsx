@@ -7,34 +7,35 @@ import PopularDestinations from '../components/PopularDestinations';
 import Destinations from '../components/Destinations';
 import Experiences from '../components/Experiences';
 import BottomBanner from '../components/BottomBanner';
-import LoginModal from '../components/LoginModal';
 import ContactModal from '../components/ContactModal';
+import PaymentModal from '../components/PaymentModal';
 import '../styles/Home.css';
 
 const Home = () => {
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const [isPaymentOpen, setIsPaymentOpen] = useState(false);
+  const [selectedBooking, setSelectedBooking] = useState(null);
 
-  const handleLoginClick = () => {
-    setIsLoginOpen(true);
-  };
 
   const handleContactClick = () => {
     setIsContactOpen(true);
-  };
-
-  const handleLoginClose = () => {
-    setIsLoginOpen(false);
   };
 
   const handleContactClose = () => {
     setIsContactOpen(false);
   };
 
-  const handleLoginSubmit = (e) => {
-    e.preventDefault();
-    console.log('Iniciar sesión');
-    setIsLoginOpen(false);
+  const handleReservation = (bookingData) => {
+    console.log('handleReservation llamado con:', bookingData);
+    setSelectedBooking(bookingData);
+    setIsPaymentOpen(true);
+    console.log('Modal de pago abierto:', true);
+  };
+
+  const handlePaymentSuccess = () => {
+    alert('¡Pago procesado exitosamente! Reserva confirmada.');
+    setIsPaymentOpen(false);
+    setSelectedBooking(null);
   };
 
   const handleContactSubmit = (e) => {
@@ -43,30 +44,32 @@ const Home = () => {
     setIsContactOpen(false);
   };
 
+  console.log('Home render - isPaymentOpen:', isPaymentOpen, 'selectedBooking:', selectedBooking);
+
   return (
     <div className="home-page">
       <Header 
-        onLoginClick={handleLoginClick}
         onContactClick={handleContactClick}
       />
-      <Hero onLoginClick={handleLoginClick} />
-      <Promotions />
-      <FeaturedHotels />
-      <PopularDestinations />
-      <Destinations />
-      <Experiences />
-      <BottomBanner onLoginClick={handleLoginClick} />
-      
-      <LoginModal
-        isOpen={isLoginOpen}
-        onClose={handleLoginClose}
-        onSubmit={handleLoginSubmit}
-      />
+      <Hero />
+      <Promotions onReservation={handleReservation} />
+      <FeaturedHotels onReservation={handleReservation} />
+      <PopularDestinations onReservation={handleReservation} />
+      <Destinations onReservation={handleReservation} />
+      <Experiences onReservation={handleReservation} />
+      <BottomBanner />
       
       <ContactModal
         isOpen={isContactOpen}
         onClose={handleContactClose}
         onSubmit={handleContactSubmit}
+      />
+      
+      <PaymentModal
+        isOpen={isPaymentOpen}
+        onClose={() => setIsPaymentOpen(false)}
+        onPaymentSuccess={handlePaymentSuccess}
+        bookingData={selectedBooking}
       />
     </div>
   );

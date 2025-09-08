@@ -9,6 +9,10 @@ const PaymentModal = ({ isOpen, onClose, onPaymentSuccess, bookingData }) => {
     cvv: '',
     name: ''
   });
+  const [showYapeVideo, setShowYapeVideo] = useState(false);
+  const [showPlinVideo, setShowPlinVideo] = useState(false);
+
+  console.log('PaymentModal render - isOpen:', isOpen, 'bookingData:', bookingData);
 
   if (!isOpen) return null;
 
@@ -179,9 +183,36 @@ const PaymentModal = ({ isOpen, onClose, onPaymentSuccess, bookingData }) => {
               <div className="payment-qr">
                 <i className="fas fa-qrcode"></i>
                 <p>Escanea el código QR con Yape</p>
-                <div className="qr-placeholder">
-                  <span>QR Code</span>
-                </div>
+                {!showYapeVideo ? (
+                  <div className="qr-placeholder" onClick={() => setShowYapeVideo(true)} style={{cursor: 'pointer'}}>
+                    <div className="fake-qr">
+                      <div className="qr-pattern">
+                        <div className="qr-corner"></div>
+                        <div className="qr-corner"></div>
+                        <div className="qr-corner"></div>
+                        <div className="qr-corner"></div>
+                        <div className="qr-dots">
+                          {'█ █ █ █ █'.repeat(5).split('').map((dot, i) => (
+                            <span key={i} className="qr-dot">{dot}</span>
+                          ))}
+                        </div>
+                      </div>
+                      <p style={{fontSize: '12px', marginTop: '10px', color: '#666'}}>Toca para escanear</p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="video-container">
+                    <iframe 
+                      width="300" 
+                      height="200" 
+                      src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" 
+                      title="Yape QR Scanner" 
+                      frameBorder="0" 
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                      allowFullScreen
+                    ></iframe>
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -191,17 +222,50 @@ const PaymentModal = ({ isOpen, onClose, onPaymentSuccess, bookingData }) => {
               <div className="payment-qr">
                 <i className="fas fa-qrcode"></i>
                 <p>Escanea el código QR con Plin</p>
-                <div className="qr-placeholder">
-                  <span>QR Code</span>
-                </div>
+                {!showPlinVideo ? (
+                  <div className="qr-placeholder" onClick={() => setShowPlinVideo(true)} style={{cursor: 'pointer'}}>
+                    <div className="fake-qr">
+                      <div className="qr-pattern">
+                        <div className="qr-corner"></div>
+                        <div className="qr-corner"></div>
+                        <div className="qr-corner"></div>
+                        <div className="qr-corner"></div>
+                        <div className="qr-dots">
+                          {'▓ ▓ ▓ ▓ ▓'.repeat(5).split('').map((dot, i) => (
+                            <span key={i} className="qr-dot">{dot}</span>
+                          ))}
+                        </div>
+                      </div>
+                      <p style={{fontSize: '12px', marginTop: '10px', color: '#666'}}>Toca para escanear</p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="video-container">
+                    <iframe 
+                      width="300" 
+                      height="200" 
+                      src="https://www.youtube.com/embed/NUYvbT6vTPs?autoplay=1" 
+                      title="Plin QR Scanner" 
+                      frameBorder="0" 
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                      allowFullScreen
+                    ></iframe>
+                  </div>
+                )}
               </div>
             </div>
           )}
 
-          <button type="submit" className="payment-btn">
-            <i className="fas fa-lock"></i>
-            Pagar S/ {bookingData?.total || '450'}
-          </button>
+          <div className="payment-buttons">
+            <button type="button" className="cancel-btn" onClick={onClose}>
+              <i className="fas fa-times"></i>
+              Cancelar
+            </button>
+            <button type="submit" className="payment-btn">
+              <i className="fas fa-lock"></i>
+              Confirmar Pago S/ {bookingData?.total || '450'}
+            </button>
+          </div>
         </form>
       </div>
     </div>

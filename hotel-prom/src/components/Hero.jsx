@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/Hero.css';
 
-const Hero = ({ onLoginClick }) => {
+const Hero = () => {
+  const navigate = useNavigate();
   const [searchData, setSearchData] = useState({
     destination: '',
     checkIn: '',
@@ -13,6 +15,14 @@ const Hero = ({ onLoginClick }) => {
     e.preventDefault();
     console.log('Búsqueda:', searchData);
     // Aquí iría la lógica de búsqueda
+  };
+
+  const handleViewOffers = () => {
+    navigate('/promotions');
+  };
+
+  const handleExploreDestinations = () => {
+    navigate('/destinations');
   };
 
   return (
@@ -39,7 +49,7 @@ const Hero = ({ onLoginClick }) => {
                 
                 <div className="date-group">
                   <div className="input-group">
-                    <label className="input-label">Check-in</label>
+                    <label className="input-label">Entrada</label>
                     <input
                       type="date"
                       value={searchData.checkIn}
@@ -48,7 +58,7 @@ const Hero = ({ onLoginClick }) => {
                   </div>
                   
                   <div className="input-group">
-                    <label className="input-label">Check-out</label>
+                    <label className="input-label">Salida</label>
                     <input
                       type="date"
                       value={searchData.checkOut}
@@ -77,14 +87,14 @@ const Hero = ({ onLoginClick }) => {
             </form>
         </div>
 
-        {/* Login Promo Card */}
+        {/* Promo Card */}
         <div className="login-promo">
-          <h3>Inicia sesión y ahorra desde un 10%</h3>
-          <p>en más de 100,000 hoteles en el mundo por ser socio</p>
-          <button className="btn-promo" onClick={onLoginClick}>
-            Iniciar Sesión
+          <h3>Ahorra desde un 10%</h3>
+          <p>en más de 100,000 hoteles en el mundo</p>
+          <button className="btn-promo" onClick={handleViewOffers}>
+            Ver Ofertas
           </button>
-          <a href="#" className="link-register">Registrarme gratis</a>
+          <a href="#" className="link-register" onClick={handleExploreDestinations}>Explorar destinos</a>
         </div>
       </div>
     </section>

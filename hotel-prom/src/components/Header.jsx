@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/Header.css';
 
-const Header = ({ onLoginClick, onContactClick }) => {
+const Header = ({ onContactClick }) => {
   return (
     <header className="header">
       <div className="container">
@@ -26,10 +26,6 @@ const Header = ({ onLoginClick, onContactClick }) => {
             <span>PEN</span>
             <i className="fas fa-flag"></i>
           </div>
-          <button className="btn-login" onClick={onLoginClick}>
-            <i className="fas fa-user"></i>
-            Iniciar Sesión
-          </button>
         </div>
       </div>
     </header>
